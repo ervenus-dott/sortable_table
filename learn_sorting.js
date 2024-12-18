@@ -63,7 +63,7 @@ var renderTable = function(columns, rows) {
     
     var columnString = columns.map(renderTableColumnHead).join('\n');
     var rowString = rows.map(renderTableRow).join('\n');
-    console.log('what is columnString?', columnString)
+    // console.log('what is columnString?', columnString)
     return /*html*/`
         <table>
             <thead>
@@ -82,25 +82,45 @@ var renderTVShows = function() {
 
 renderTVShows();
 
-var sortDateButton = document.getElementById('sort-date');
-var sortEpisodeButton = document.getElementById('sort-episodes');
+var sortDateAscendButton = document.getElementById('sort-date-ascending');
+var sortEpisodeAscendButton = document.getElementById('sort-episodes-ascending');
+var sortDateDescendButton = document.getElementById('sort-date-descending');
+var sortEpisodeDescendButton = document.getElementById('sort-episodes-descending');
 
-var sortByDate = function(a, b) {
+var sortByDateAscend = function(a, b) {
     return a.airDate.localeCompare(b.airDate);
-    // reverse order of a.airDate and b.airDate for reverse
+    // reverse order of a.airDate and b.airDate for reverse button
 };
 
-var sortByEpisodes = function(a, b) {
+var sortByEpisodesAscend = function(a, b) {
     return a.episodeCount - b.episodeCount;
-    // 
+    // swap a.episodeCount and b.episodeCount for other button
 };
 
-sortDateButton.addEventListener('click', function(){
-    tvShows.sort(sortByDate);
+sortDateAscendButton.addEventListener('click', function(){
+    tvShows.sort(sortByDateAscend);
     renderTVShows();
 })
-sortEpisodeButton.addEventListener('click', function(){
-    tvShows.sort(sortByEpisodes);
+sortEpisodeAscendButton.addEventListener('click', function(){
+    tvShows.sort(sortByEpisodesAscend);
+    renderTVShows();
+})
+var sortByDateDescend = function(a, b) {
+    return b.airDate.localeCompare(a.airDate);
+    // reverse order of a.airDate and b.airDate for reverse button
+};
+
+var sortByEpisodesDescend = function(a, b) {
+    return b.episodeCount - a.episodeCount;
+    // swap a.episodeCount and b.episodeCount for other button
+};
+
+sortDateDescendButton.addEventListener('click', function(){
+    tvShows.sort(sortByDateDescend);
+    renderTVShows();
+})
+sortEpisodeDescendButton.addEventListener('click', function(){
+    tvShows.sort(sortByEpisodesDescend);
     renderTVShows();
 })
 
