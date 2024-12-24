@@ -36,31 +36,31 @@ var tvShows = [
         episodeCount: 41,
     },
 
-    
+
 ];
 
 var columns = [
-    {key: 'title', label: 'Title'}, 
-    {key: 'stillRunning', label: 'Is it still running?'}, 
-    {key: 'airDate', label: 'When the show started airing'}, 
-    {key: 'episodeCount', label: 'How many Episodes are released?'}, 
+    { key: 'title', label: 'Title' },
+    { key: 'stillRunning', label: 'Is it still running?' },
+    { key: 'airDate', label: 'When the show started airing' },
+    { key: 'episodeCount', label: 'How many Episodes are released?' },
 ];
-var renderTableColumnHead = function(column) {
+var renderTableColumnHead = function (column) {
     return /*html*/`<th>${column.label}</th>`;
 };
-var renderTableRowCell = function(value, key) {
+var renderTableRowCell = function (value, key) {
     return /*html*/`<td class="${key}">${value}</td>`;
 };
-var renderTable = function(columns, rows) {
-    var renderTableRow = function(row) {
-        var renderCell = function(column) {
+var renderTable = function (columns, rows) {
+    var renderTableRow = function (row) {
+        var renderCell = function (column) {
             var value = row[column.key];
             return renderTableRowCell(value, column.key);
         };
         var columnString = columns.map(renderCell).join('');
         return /*html*/`<tr>${columnString}</tr>`;
     };
-    
+
     var columnString = columns.map(renderTableColumnHead).join('\n');
     var rowString = rows.map(renderTableRow).join('\n');
     // console.log('what is columnString?', columnString)
@@ -76,7 +76,7 @@ var renderTable = function(columns, rows) {
     `;
 };
 var showHolder = document.getElementById('show-holder');
-var renderTVShows = function() {
+var renderTVShows = function () {
     showHolder.innerHTML = renderTable(columns, tvShows);
 };
 
@@ -87,40 +87,63 @@ var sortEpisodeAscendButton = document.getElementById('sort-episodes-ascending')
 var sortDateDescendButton = document.getElementById('sort-date-descending');
 var sortEpisodeDescendButton = document.getElementById('sort-episodes-descending');
 
-var sortByDateAscend = function(a, b) {
+var sortByDateAscend = function (a, b) {
     return a.airDate.localeCompare(b.airDate);
     // reverse order of a.airDate and b.airDate for reverse button
 };
 
-var sortByEpisodesAscend = function(a, b) {
+var sortByEpisodesAscend = function (a, b) {
     return a.episodeCount - b.episodeCount;
     // swap a.episodeCount and b.episodeCount for other button
 };
 
-sortDateAscendButton.addEventListener('click', function(){
+sortDateAscendButton.addEventListener('click', function () {
     tvShows.sort(sortByDateAscend);
     renderTVShows();
 })
-sortEpisodeAscendButton.addEventListener('click', function(){
+sortEpisodeAscendButton.addEventListener('click', function () {
     tvShows.sort(sortByEpisodesAscend);
     renderTVShows();
 })
-var sortByDateDescend = function(a, b) {
+var sortByDateDescend = function (a, b) {
     return b.airDate.localeCompare(a.airDate);
     // reverse order of a.airDate and b.airDate for reverse button
 };
 
-var sortByEpisodesDescend = function(a, b) {
+var sortByEpisodesDescend = function (a, b) {
     return b.episodeCount - a.episodeCount;
     // swap a.episodeCount and b.episodeCount for other button
 };
 
-sortDateDescendButton.addEventListener('click', function(){
+sortDateDescendButton.addEventListener('click', function () {
     tvShows.sort(sortByDateDescend);
     renderTVShows();
 })
-sortEpisodeDescendButton.addEventListener('click', function(){
+sortEpisodeDescendButton.addEventListener('click', function () {
     tvShows.sort(sortByEpisodesDescend);
     renderTVShows();
 })
 
+var sortDateToggleButton = document.getElementById('sort-date-toggle');
+var sortEpisodeToggleButton = document.getElementById('sort-episodes-toggle');
+
+var dateAscending = true;
+var episodeAscending = true;
+
+// create a function that when called changes the state of the button
+// update since writing the function. I'm able to get it to log the first state
+// it doesnt write the variable in the function to 'b' so it wont go to the else
+// apple clicker project may be worth checking to find some answers on how to do this
+var dateToggle = function () {
+    dateAscending = !dateAscending;
+    tvShows.sort(dateAscending ? sortByDateAscend : sortByDateDescend);
+    renderTVShows();
+};
+sortDateToggleButton.addEventListener('click', dateToggle);
+
+var episodeToggle = function () {
+    episodeAscending = !episodeAscending;
+    tvShows.sort(episodeAscending ? sortByEpisodesAscend : sortByEpisodesDescend);
+    renderTVShows();
+};
+sortEpisodeToggleButton.addEventListener('click', episodeToggle);
