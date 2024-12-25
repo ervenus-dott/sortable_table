@@ -39,7 +39,7 @@ var tvShows = [
 
 ];
 
-var columns = [
+var tvShowColumns = [
     { key: 'title', label: 'Title' },
     { key: 'stillRunning', label: 'Is it still running?' },
     { key: 'airDate', label: 'When the show started airing' },
@@ -77,7 +77,7 @@ var renderTable = function (columns, rows) {
 };
 var showHolder = document.getElementById('show-holder');
 var renderTVShows = function () {
-    showHolder.innerHTML = renderTable(columns, tvShows);
+    showHolder.innerHTML = renderTable(tvShowColumns, tvShows);
 };
 
 renderTVShows();
@@ -147,3 +147,20 @@ var episodeToggle = function () {
     renderTVShows();
 };
 sortEpisodeToggleButton.addEventListener('click', episodeToggle);
+
+
+var goats = [
+    {name: 'Gruff', powerLevel: 9001, isGrumpy: true},
+    {name: 'Fawn', powerLevel: 1000000, isGrumpy: false},
+    {name: 'Billy', powerLevel: 10, isGrumpy: false},
+];
+var goatColumns = [
+    { key: 'name', label: 'Name' },
+    { key: 'powerLevel', label: 'How much Power?' },
+    { key: 'isGrumpy', label: 'Are they grumpy?' },
+];
+var goatHolder = document.getElementById('goat-holder');
+var renderGoatTable = function () {
+    goatHolder.innerHTML = renderTable(goatColumns, goats);
+};
+renderGoatTable();
