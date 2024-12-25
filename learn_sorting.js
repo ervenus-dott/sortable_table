@@ -75,6 +75,29 @@ var renderTable = function (columns, rows) {
         </table>
     `;
 };
+
+var sortNumbers = function(a, b) {
+    return a - b;
+};
+var sortStrings = function (a, b) {
+    return a.localeCompare(b);
+};
+var makeNamedNumberSorter = function(key, ascending) {
+    return function(first, second) {
+        var a = ascending ? first : second;
+        var b = ascending ? second : first;
+        return sortNumbers(a[key], b[key]);
+    };
+};
+var makeNamedStringSorter = function(key, ascending) {
+    return function(first, second) {
+        var a = ascending ? first : second;
+        var b = ascending ? second : first;
+        return sortStrings(a[key], b[key]);
+    };
+};
+
+
 var showHolder = document.getElementById('show-holder');
 var renderTVShows = function () {
     showHolder.innerHTML = renderTable(tvShowColumns, tvShows);
@@ -87,36 +110,22 @@ var sortEpisodeAscendButton = document.getElementById('sort-episodes-ascending')
 var sortDateDescendButton = document.getElementById('sort-date-descending');
 var sortEpisodeDescendButton = document.getElementById('sort-episodes-descending');
 
-var sortByDateAscend = function (a, b) {
-    return a.airDate.localeCompare(b.airDate);
-    // reverse order of a.airDate and b.airDate for reverse button
-};
+var sortByDateAscend = makeNamedStringSorter('airDate', true);
+var sortByDateDescend = makeNamedStringSorter('airDate', false);
 
-var sortByEpisodesAscend = function (a, b) {
-    return a.episodeCount - b.episodeCount;
-    // swap a.episodeCount and b.episodeCount for other button
-};
+var sortByEpisodesAscend = makeNamedNumberSorter('episodeCount', true);
+var sortByEpisodesDescend = makeNamedNumberSorter('episodeCount', false);
 
 sortDateAscendButton.addEventListener('click', function () {
     tvShows.sort(sortByDateAscend);
     renderTVShows();
 })
-sortEpisodeAscendButton.addEventListener('click', function () {
-    tvShows.sort(sortByEpisodesAscend);
-    renderTVShows();
-})
-var sortByDateDescend = function (a, b) {
-    return b.airDate.localeCompare(a.airDate);
-    // reverse order of a.airDate and b.airDate for reverse button
-};
-
-var sortByEpisodesDescend = function (a, b) {
-    return b.episodeCount - a.episodeCount;
-    // swap a.episodeCount and b.episodeCount for other button
-};
-
 sortDateDescendButton.addEventListener('click', function () {
     tvShows.sort(sortByDateDescend);
+    renderTVShows();
+})
+sortEpisodeAscendButton.addEventListener('click', function () {
+    tvShows.sort(sortByEpisodesAscend);
     renderTVShows();
 })
 sortEpisodeDescendButton.addEventListener('click', function () {
@@ -164,3 +173,23 @@ var renderGoatTable = function () {
     goatHolder.innerHTML = renderTable(goatColumns, goats);
 };
 renderGoatTable();
+
+var sortGoatsNameButton = document.getElementById('sort-goats-name');
+var nameAscending = false;
+var nameToggle = function () {
+    nameAscending = !nameAscending;
+    var sortingFunction = makeNamedStringSorter('name', nameAscending);
+    goats.sort(sortingFunction);
+    renderGoatTable();
+};
+sortGoatsNameButton.addEventListener('click', nameToggle);
+
+var sortGoatsPowerLevelButton = document.getElementById('sort-goats-power-level');
+var powerLevelAscending = false;
+var powerLevelToggle = function () {
+    powerLevelAscending = !powerLevelAscending;
+    var sortingFunction = makeNamedNumberSorter('powerLevel', powerLevelAscending);
+    goats.sort(sortingFunction);
+    renderGoatTable();
+};
+sortGoatsPowerLevelButton.addEventListener('click', powerLevelToggle);
