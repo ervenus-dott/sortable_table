@@ -35,8 +35,6 @@ var tvShows = [
         airDate: '1985-09-14',
         episodeCount: 41,
     },
-
-
 ];
 
 var tvShowColumns = [
@@ -46,7 +44,7 @@ var tvShowColumns = [
     { key: 'episodeCount', label: 'How many Episodes are released?' },
 ];
 var renderTableColumnHead = function (column) {
-    return /*html*/`<th>${column.label}</th>`;
+    return /*html*/`<th class="${column.key}">${column.label}</th>`;
 };
 var renderTableRowCell = function (value, key) {
     return /*html*/`<td class="${key}">${value}</td>`;
@@ -61,13 +59,13 @@ var renderTable = function (columns, rows) {
         return /*html*/`<tr>${columnString}</tr>`;
     };
 
-    var columnString = columns.map(renderTableColumnHead).join('\n');
+    var headerString = columns.map(renderTableColumnHead).join('\n');
     var rowString = rows.map(renderTableRow).join('\n');
     // console.log('what is columnString?', columnString)
     return /*html*/`
         <table>
             <thead>
-                <tr>${columnString}</tr>
+                <tr>${headerString}</tr>
             </thead>
             <tbody>
                 ${rowString}
