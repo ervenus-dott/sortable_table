@@ -38,13 +38,26 @@ var tvShows = [
 ];
 
 var tvShowColumns = [
-    { key: 'title', label: 'Title' },
-    { key: 'stillRunning', label: 'Is it still running?' },
-    { key: 'airDate', label: 'When the show started airing' },
-    { key: 'episodeCount', label: 'How many Episodes are released?' },
+    { key: 'title', type: 'string', label: 'Title' },
+    { key: 'stillRunning', type: 'number', label: 'Is it still running?' },
+    { key: 'airDate', type: 'string', label: 'When the show started airing' },
+    { key: 'episodeCount', type: 'number', label: 'How many Episodes are released?' },
 ];
 var renderTableColumnHead = function (column) {
-    return /*html*/`<th class="${column.key}">${column.label}</th>`;
+    return /*html*/`
+    <th class="${column.key}">
+        <span>${column.label}</span>
+        <button 
+            data-column="${column.key}" 
+            data-direction="ascending"
+            data-type="${column.type}"
+        >⬆</button>
+        <button 
+            data-column="${column.key}" 
+            data-direction="descending"
+            data-type="${column.type}"
+        >⬇</button>
+    </th>`;
 };
 var renderTableRowCell = function (value, key) {
     return /*html*/`<td class="${key}">${value}</td>`;
@@ -162,9 +175,9 @@ var goats = [
     {name: 'Billy', powerLevel: 10, isGrumpy: false},
 ];
 var goatColumns = [
-    { key: 'name', label: 'Name' },
-    { key: 'powerLevel', label: 'How much Power?' },
-    { key: 'isGrumpy', label: 'Are they grumpy?' },
+    { key: 'name', type: 'string', label: 'Name' },
+    { key: 'powerLevel', type: 'number', label: 'How much Power?' },
+    { key: 'isGrumpy', type: 'number', label: 'Are they grumpy?' },
 ];
 var goatHolder = document.getElementById('goat-holder');
 var renderGoatTable = function () {
@@ -191,3 +204,28 @@ var powerLevelToggle = function () {
     renderGoatTable();
 };
 sortGoatsPowerLevelButton.addEventListener('click', powerLevelToggle);
+
+goatHolder.addEventListener('click', function(clickEvent){
+    //console.log('what is clickEvent.target.dataset', clickEvent.target.dataset);
+    var {column, direction, type} = clickEvent.target.dataset;
+    if (column) {
+        // console.log('what is column?', column);
+        var makeSorter = type === 'string' ? makeNamedStringSorter : makeNamedNumberSorter;
+        var ascending = direction === 'ascending';
+        var sortingFunction = makeSorter(column, ascending);
+        goats.sort(sortingFunction);
+        renderGoatTable();
+    }
+});
+showHolder.addEventListener('click', function(clickEvent){
+    //console.log('what is clickEvent.target.dataset', clickEvent.target.dataset);
+    var {column, direction, type} = clickEvent.target.dataset;
+    if (column) {
+        //console.log('what is column?', column);
+        var makeSorter = type === 'string' ? makeNamedStringSorter : makeNamedNumberSorter;
+        var ascending = direction === 'ascending';
+        var sortingFunction = makeSorter(column, ascending);
+        tvShows.sort(sortingFunction);
+        renderTVShows();
+    }
+});
