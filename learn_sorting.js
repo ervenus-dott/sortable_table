@@ -231,3 +231,33 @@ showHolder.addEventListener('click', function(clickEvent){
         renderTVShows();
     }
 });
+
+var sortTVColumnsAscend = document.getElementById("sort-tv-columns-ascend");
+var sortTVColumnsDescend = document.getElementById("sort-tv-columns-descend");
+
+var sortTVColumnsbyAscend = makeNamedStringSorter('key', true);
+var sortTVColumnsbyDescend = makeNamedStringSorter('key', false);
+
+sortTVColumnsAscend.addEventListener('click', function () {
+    tvShowColumns.sort(sortTVColumnsbyAscend);
+    renderTVShows();
+})
+sortTVColumnsDescend.addEventListener('click', function () {
+    tvShowColumns.sort(sortTVColumnsbyDescend);
+    renderTVShows();
+})
+
+var sortGoatColumnsAscend = document.getElementById("sort-goat-columns-ascend");
+var sortGoatColumnsDescend = document.getElementById("sort-goat-columns-descend");
+
+var sortGoatColumnsbyAscend = makeNamedStringSorter('key', true);
+var sortGoatColumnsbyDescend = makeNamedStringSorter('key', false);
+
+sortGoatColumnsAscend.addEventListener('click', function () {
+    goatColumns.sort(sortGoatColumnsbyAscend);
+    renderGoatTable();
+})
+sortGoatColumnsDescend.addEventListener('click', function () {
+    goatColumns.sort(sortGoatColumnsbyDescend);
+    renderGoatTable();
+})
