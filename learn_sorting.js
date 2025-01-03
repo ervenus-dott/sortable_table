@@ -47,16 +47,18 @@ var renderTableColumnHead = function (column) {
     return /*html*/`
     <th class="${column.key}">
         <span>${column.label}</span>
-        <button 
-            data-column="${column.key}" 
-            data-direction="ascending"
-            data-type="${column.type}"
-        >⬆</button>
-        <button 
-            data-column="${column.key}" 
-            data-direction="descending"
-            data-type="${column.type}"
-        >⬇</button>
+        <span class="buttons">
+            <button 
+                data-column="${column.key}" 
+                data-direction="ascending"
+                data-type="${column.type}"
+            >⬆</button>
+            <button 
+                data-column="${column.key}" 
+                data-direction="descending"
+                data-type="${column.type}"
+            >⬇</button>
+        </span>
     </th>`;
 };
 var renderTableRowCell = function (value, key) {

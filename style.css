@@ -20,7 +20,7 @@ body {
 	background-color: #000;
 	color: #9f0;
 	line-height: 16px;
-	font-size: 10px;
+	font-size: 16px;
 	font-family: monaco, monospace;
 	font-weight: normal;
 	padding: 16px;
@@ -32,7 +32,7 @@ canvas {
     border: 1px solid #333;
 }
 button {
-    padding: 4px;
+    padding: 0.5rem;
     border: 1px solid #333;
     background-color: transparent;
 }
@@ -85,6 +85,20 @@ th {
 	font-weight: 800;
 	color: #999;
 	font-size: 1.25em;
+	position: relative;
+	padding-right: 3.75rem;
+}
+th .buttons {
+	position: absolute;
+	top: 0;
+	right: 0;
+	font-size: 0;
+	height: 100%;
+}
+th .buttons button {
+	font-size: 1rem;
+	height: 100%;
+	border-width: 0 0 0 2px;
 }
 td {
 	border: 1px solid #666;
